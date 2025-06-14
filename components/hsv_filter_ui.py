@@ -23,10 +23,10 @@ def hsv_filter_component(input_image_pil, selected_color_hsv, max_display_width)
         st.session_state.dilation_iterations = 0
 
     if selected_color_hsv is None or input_image_pil is None:
-        st.info("Please select a color and ensure an image is cropped to enable HSV filtering.")
+        st.info("Por favor, selecione uma cor e certifique-se de que a imagem esteja cortada para habilitar o filtro")
         return None, None
 
-    st.write("Use the sliders to adjust the color tolerance and filter the image.")
+    st.write("Use os sliders para ajustar a tolerância da cor e filtar a imagem.")
 
     current_h_tol = st.session_state.hsv_tolerances['H']
     current_s_tol = st.session_state.hsv_tolerances['S']
@@ -37,14 +37,14 @@ def hsv_filter_component(input_image_pil, selected_color_hsv, max_display_width)
     col_image, col_sliders = st.columns([2, 1])
 
     with col_sliders:
-        st.subheader("Filter Controls")
-        new_h_tol = st.slider('Hue Tolerance (0-179)', 0, 50, value=current_h_tol, step=1, key='h_tolerance_slider')
-        new_s_tol = st.slider('Saturation Tolerance (0-255)', 0, 100, value=current_s_tol, step=1, key='s_tolerance_slider')
-        new_v_tol = st.slider('Value Tolerance (0-255)', 0, 100, value=current_v_tol, step=1, key='v_tolerance_slider')
+        st.subheader("Controles de Filtro HSV")
+        new_h_tol = st.slider('Tolerância Hue (0-179)', 0, 50, value=current_h_tol, step=1, key='h_tolerance_slider')
+        new_s_tol = st.slider('Tolerância Saturation (0-255)', 0, 100, value=current_s_tol, step=1, key='s_tolerance_slider')
+        new_v_tol = st.slider('Tolerância Value (0-255)', 0, 100, value=current_v_tol, step=1, key='v_tolerance_slider')
 
-        st.subheader("Morphological Operations")
-        new_erosion = st.slider('Erosion Iterations', 0, 10, value=current_erosion, step=1, key='erosion_slider')
-        new_dilation = st.slider('Dilation Iterations', 0, 10, value=current_dilation, step=1, key='dilation_slider')
+        st.subheader("Controles de Operações Morfológicas")
+        new_erosion = st.slider('Iterações de Erosão', 0, 10, value=current_erosion, step=1, key='erosion_slider')
+        new_dilation = st.slider('Irerações de Dilatação', 0, 10, value=current_dilation, step=1, key='dilation_slider')
 
         if (new_h_tol != current_h_tol or
             new_s_tol != current_s_tol or
@@ -84,8 +84,7 @@ def hsv_filter_component(input_image_pil, selected_color_hsv, max_display_width)
         filtered_image_np_rgb = processed_image_rgb
 
     with col_image:
-        st.subheader("Filtered Image")
-        st.image(filtered_image_np_rgb, caption="Image Filtered by HSV and Morphological Operations", width=max_display_width)
+        st.subheader("Imagem Filtrada")
+        st.image(filtered_image_np_rgb, caption="Imagem Filtrada", width=max_display_width)
     
     return filtered_image_np_rgb, binary_mask
-

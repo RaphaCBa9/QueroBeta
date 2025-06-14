@@ -283,5 +283,3 @@ def visualize_route(image_pil, route_coords):
             cv2.line(output_image, (x, y), (next_x, next_y), (0, 255, 0), 2) # Green line
 
     return Image.fromarray(output_image)
-
-

@@ -20,18 +20,11 @@ def hold_segmentation_viewer_component(cropped_image_pil, binary_mask_np, max_di
     st.subheader("4. Identificação de Agarras")
 
     # Botão para iniciar a segmentação. Colocado em uma coluna para melhor layout.
-    cols = st.columns([2, 1])
-    with cols[0]:
-        if st.button("Identificar Agarras", key="identify_holds_button"):
-            # A máscara binária já é o que precisamos para o BFS
-            st.session_state.detected_holds_components = bfs_segmentation(binary_mask_np)
-            st.toast("Agarras identificadas!")
-            st.rerun() # Força um rerun para exibir os resultados após a detecção
-    with cols[1]:
-        if st.session_state.get('detected_holds_components'):
-            st.success(f"Encontradas {len(st.session_state.detected_holds_components)} agarras.")
-        else:
-            st.info("Clique em 'Identificar Agarras' para começar.")
+    if st.button("Identificar Agarras", key="identify_holds_button"):
+        # A máscara binária já é o que precisamos para o BFS
+        st.session_state.detected_holds_components = bfs_segmentation(binary_mask_np)
+        st.toast("Agarras identificadas!")
+        st.rerun() # Força um rerun para exibir os resultados após a detecção
 
     # Exibir os resultados da segmentação se houver agarras detectadas
     if st.session_state.get('detected_holds_components'):

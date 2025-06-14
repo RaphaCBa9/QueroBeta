@@ -17,18 +17,15 @@ def image_cropper_component(original_image_pil):
     Returns:
         PIL.Image.Image or None: The cropped PIL Image object if available, otherwise None.
     """
-    cropped_image_display_placeholder = st.empty() # Placeholder for cropped image display
 
     # If already cropped, just load and display the cropped image
     if st.session_state.cropped_image_data is not None:
         cropped_pil_image = Image.open(BytesIO(st.session_state.cropped_image_data))
-        with cropped_image_display_placeholder.container():
-            st.image(cropped_pil_image, caption="Cropped Image", width=MAX_IMAGE_WIDTH)
         return cropped_pil_image
     
     # If not yet cropped, show the original image for cropping interface
     else:
-        st.write("Click two points on the image to define the top-left and bottom-right corners of the crop rectangle.")
+        st.write("Clique em dois pontos na imagem para definir os cantos superior esquerdo e inferior direito do retângulo de recorte.")
         current_coordinates = streamlit_image_coordinates(
             original_image_pil,
             key="original_image_for_cropping",
@@ -44,10 +41,10 @@ def image_cropper_component(original_image_pil):
                 
                 if len(st.session_state.crop_points) < 2:
                     st.session_state.crop_points.append((clicked_x, clicked_y))
-                    st.toast(f"Crop point {len(st.session_state.crop_points)} selected: ({clicked_x}, {clicked_y})")
+                    st.toast(f"Ponto de corte {len(st.session_state.crop_points)} selecionado: ({clicked_x}, {clicked_y})")
                     
                     if len(st.session_state.crop_points) == 2:
-                        st.write("Two crop points selected. Cropping image...")
+                        st.write("Cortando imagem com os pontos selecionados...")
                         p1 = st.session_state.crop_points[0]
                         p2 = st.session_state.crop_points[1]
 
@@ -68,10 +65,10 @@ def image_cropper_component(original_image_pil):
                         cropped_image.save(buf, format="PNG")
                         st.session_state.cropped_image_data = buf.getvalue()
                         
-                        st.success("Image cropped successfully! Displaying cropped image below.")
+                        st.success("Imagem cortada com sucesso! Exibindo imagem cortada abaixo.")
                         st.rerun() # Rerun to display the cropped image by the next pass
         
         if len(st.session_state.crop_points) < 2:
-            st.info(f"Please select {2 - len(st.session_state.crop_points)} more point(s) to define the crop area.")
+            st.info(f"Selecione {2 - len(st.session_state.crop_points)} mais pontos para selecionar a área cortada.")
         
         return None # No cropped image yet

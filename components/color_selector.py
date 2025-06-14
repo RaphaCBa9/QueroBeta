@@ -21,8 +21,7 @@ def color_selector_component(cropped_image_pil):
     if cropped_image_pil is None:
         return None, None
 
-    st.subheader("2. Select Color")
-    st.write("Click on the cropped image to select a pixel's color.")
+    st.write("Clique na imagem cortada para selecionar a cor da rota.")
 
     if st.session_state.selected_color_rgb is None:
         color_selection_coords = streamlit_image_coordinates(
@@ -44,7 +43,7 @@ def color_selector_component(cropped_image_pil):
             st.session_state.selected_color_rgb = rgb_color
             st.session_state.selected_color_hsv = tuple(hsv_color.tolist())
             
-            st.toast(f"Color selected at ({pixel_x}, {pixel_y}): RGB {rgb_color}, HSV {st.session_state.selected_color_hsv}")
+            st.toast(f"Cor selecionada em ({pixel_x}, {pixel_y}): RGB {rgb_color}, HSV {st.session_state.selected_color_hsv}")
             st.rerun()
 
     if st.session_state.selected_color_rgb:
@@ -56,7 +55,7 @@ def color_selector_component(cropped_image_pil):
             f'<p>HSV (OpenCV range H:0-179, S:0-255, V:0-255): {st.session_state.selected_color_hsv}</p>',
             unsafe_allow_html=True
         )
-        if st.button("Reset Color Selection"):
+        if st.button("Reiniciar Seleção de Cor"):
             st.session_state.selected_color_rgb = None
             st.session_state.selected_color_hsv = None
             st.rerun()

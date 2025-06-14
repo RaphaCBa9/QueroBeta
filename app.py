@@ -10,8 +10,10 @@ from components.hold_segmentation_viewer import hold_segmentation_viewer_compone
 from utils.image_processing import apply_hsv_filter, find_fastest_route, visualize_route # Adicionado find_fastest_route, visualize_route
 from streamlit_image_coordinates import streamlit_image_coordinates
 
+MAX_IMAGE_WIDTH = 500 # pixels - adjust as needed
+
 st.set_page_config(layout="wide")
-st.title("Image Processing App (Modular)")
+st.title("Quero Beta")
 
 # --- Initialize session state variables ---
 if 'clicks' not in st.session_state:
@@ -39,13 +41,8 @@ if 'initial_holds' not in st.session_state:
 if 'final_hold' not in st.session_state:
     st.session_state.final_hold = None
 
-# --- Configuration ---
-MAX_IMAGE_WIDTH = 500 # pixels - adjust as needed
-st.session_state.max_image_width = MAX_IMAGE_WIDTH # Always ensure this is set
-
-
 # --- File Uploader ---
-uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png", "gif"])
+uploaded_file = st.file_uploader("Escolha uma imagem...", type=["jpg", "jpeg", "png", "gif"])
 
 if uploaded_file is not None:
     # Check if a new file is uploaded or if the file has changed
@@ -70,14 +67,14 @@ if uploaded_file is not None:
     original_image = Image.open(BytesIO(st.session_state.uploaded_image_info["data"]))
 
     # --- 1. Image Cropping Section ---
-    st.subheader("1. Faça o recorte da imagem")
+    st.subheader("1. Cortar Retângulo da Imagem")
     current_cropped_image_pil = image_cropper_component(original_image)
-    
+
     if current_cropped_image_pil is not None:
-        st.image(current_cropped_image_pil, caption="Imagem Cortada", width=st.session_state.max_image_width)
+        st.image(current_cropped_image_pil, caption="Imagem Cortada", width=MAX_IMAGE_WIDTH)
 
         # --- 2. Select Color from Cropped Image ---
-        st.subheader("2. Selecione Uma Agarra")
+        st.subheader("2. Selecionar Cor")
         color_selector_component(current_cropped_image_pil)
 
         # Variáveis para armazenar a imagem filtrada e a máscara binária
@@ -86,12 +83,12 @@ if uploaded_file is not None:
 
         if st.session_state.selected_color_hsv:
             # --- 3. Filtro HSV ---
-            st.subheader("3. Faça os ajustes de Filtro HSV")
+            st.subheader("3. Ajustar Filtro HSV")
             # hsv_filter_component agora retorna a imagem filtrada E a máscara
             filtered_image_np_rgb, binary_mask_np = hsv_filter_component(
                 current_cropped_image_pil,
                 st.session_state.selected_color_hsv,
-                st.session_state.max_image_width
+                MAX_IMAGE_WIDTH
             )
         else:
             st.info("Por favor, selecione uma cor para habilitar o filtro HSV.")
@@ -99,7 +96,7 @@ if uploaded_file is not None:
         # --- 4. Identificação de Agarras (Chamada ao NOVO componente) ---
         if filtered_image_np_rgb is not None and binary_mask_np is not None:
             # Passamos a imagem cortada (PIL) e a máscara binária (NumPy)
-            hold_segmentation_viewer_component(current_cropped_image_pil, binary_mask_np, st.session_state.max_image_width)
+            hold_segmentation_viewer_component(current_cropped_image_pil, binary_mask_np, MAX_IMAGE_WIDTH)
         else:
             st.info("Aguardando o filtro HSV para identificar as agarras.")
 
@@ -110,7 +107,7 @@ if uploaded_file is not None:
         general_click_coords = streamlit_image_coordinates(
             current_cropped_image_pil,
             key="cropped_image_for_general_clicks",
-            width=st.session_state.max_image_width
+            width=MAX_IMAGE_WIDTH
         )
         if general_click_coords:
             clicked_x = general_click_coords['x']
@@ -157,7 +154,7 @@ if uploaded_file is not None:
             if fastest_route:
                 st.success("Rota mais rápida encontrada!")
                 route_image = visualize_route(current_cropped_image_pil, fastest_route)
-                st.image(route_image, caption="Rota Mais Rápida", width=st.session_state.max_image_width)
+                st.image(route_image, caption="Rota Mais Rápida", width=MAX_IMAGE_WIDTH)
             else:
                 st.warning("Não foi possível encontrar uma rota válida com as agarras selecionadas.")
     else:
@@ -182,5 +179,7 @@ else:
 
 
 st.sidebar.header("Sobre")
-st.sidebar.info("Este aplicativo Streamlit demonstra um design modular para etapas de processamento de imagem.")
-
+st.sidebar.info("Está com dificuldade em um boulder? Quero Beta encontra uma rota para você!")
+st.sidebar.info("Lembre-se de fazer todas as etapas!")
+st.sidebar.info("Na pasta do projeto, encontra-se uma pasta 'imgs' com imagens de exemplo.")
+st.sidebar.info("Caso você queira reiniciar, basta recarregar a página.")

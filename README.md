@@ -1,12 +1,6 @@
-# QueroBeta
+# Projeto de Reconhecimento de Rotas de Bouldering
 
 Este projeto utiliza visão computacional para identificar agarras em uma parede de escalada e determinar a rota mais rápida até o topo.
-
-## Integrantes do Projeto
-- Raphael Banov
-- Leonardo Merlin Paloschi
-- Raul Rangel
-- Ilana Finger
 
 ---
 
@@ -15,26 +9,26 @@ Este projeto utiliza visão computacional para identificar agarras em uma parede
 É altamente recomendável criar um ambiente virtual para isolar as dependências do projeto.
 
 1. **Navegue até o diretório do projeto:**
-```bash
-cd /caminho/para/seu/projeto
-```
+    ```bash
+    cd /caminho/para/seu/projeto
+    ```
 2. **Crie o ambiente virtual:**
-```bash
-python3 -m venv venv
-```
+    ```bash
+    python3 -m venv venv
+    ```
 3. **Ative o ambiente virtual:**
     - **Linux/macOS:**
-```bash
-source venv/bin/activate
-```
+      ```bash
+      source venv/bin/activate
+      ```
     - **Windows (Command Prompt):**
-```bash
-venv\Scripts\activate.bat
-```
+      ```bash
+      venv\Scripts\activate.bat
+      ```
     - **Windows (PowerShell):**
-```powershell
-venv\Scripts\Activate.ps1
-```
+      ```powershell
+      venv\Scripts\Activate.ps1
+      ```
 
 ## 2. Instalação das Dependências
 
@@ -50,9 +44,9 @@ Este projeto utiliza o **Streamlit** para interface gráfica.
 
 1. Certifique-se de que o ambiente virtual está ativado.
 2. Execute:
-```bash
-streamlit run app.py
-```
+    ```bash
+    streamlit run app.py
+    ```
 3. Abra o navegador no endereço exibido no terminal (Local URL / Network URL).
 
 ---
@@ -67,16 +61,16 @@ streamlit run app.py
 ### Etapa 1: Recorte da Imagem (Cropping)
 
 * **Objetivo:** Isolar a área da rota.
-* **Ação:** Clique em dois pontos na imagem, um deles sendo o **canto superior esquedo**, e o outro sendo o **canto inferior direito**, isolando a rota desejada.
+* **Ação:** Desenhe um retângulo e clique em **Crop Image**.
 
 ### Etapa 2: Seleção de Cor da Agarra
 
 * **Objetivo:** Definir referência de cor para detecção.
-* **Ação:** Clique sobre uma das agarras da rota para que o programa consiga identificar as demais.
+* **Ação:** Clique sobre uma agarra; a cor RGB/HSV é exibida.
 
 ### Etapa 3: Ajuste de Máscara HSV e Operações Morfológicas
 
-* **Objetivo:** Refinar segmentação das agarras para melhorar a precisão e remover ruídos, isto é, evitar que agarras próximas se "mesclem" ou que haja pontos isolados na imagem.
+* **Objetivo:** Refinar segmentação das agarras para melhorar a precisão e remover ruídos.
 * **Parâmetros disponíveis e seus efeitos:**
   - **H (Hue):**
     - **O que afeta:** Define a faixa de tonalidades (cores) que serão identificadas.
@@ -114,4 +108,3 @@ streamlit run app.py
 * **Ação:** Clique em **Calcular Rota Mais Rápida**; a sequência numerada aparecerá sobre a imagem.
 
 ---
-
