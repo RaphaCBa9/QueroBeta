@@ -85,6 +85,6 @@ def hsv_filter_component(input_image_pil, selected_color_hsv, max_display_width)
 
     with col_image:
         st.subheader("Imagem Filtrada")
-        st.image(filtered_image_np_rgb, caption="Imagem Filtrada", width=max_display_width)
+        st.image(filtered_image_np_rgb, caption="Imagem Filtrada")
     
     return filtered_image_np_rgb, binary_mask

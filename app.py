@@ -71,7 +71,7 @@ if uploaded_file is not None:
     current_cropped_image_pil = image_cropper_component(original_image)
 
     if current_cropped_image_pil is not None:
-        st.image(current_cropped_image_pil, caption="Imagem Cortada", width=MAX_IMAGE_WIDTH)
+        st.image(current_cropped_image_pil, caption="Imagem Cortada")
 
         # --- 2. Select Color from Cropped Image ---
         st.subheader("2. Selecionar Cor")
@@ -102,12 +102,11 @@ if uploaded_file is not None:
 
         # --- 5. Cliques Gerais na Imagem Cortada (Opcional - reindexado de 4 para 5) ---
         st.subheader("5. Seleção de Agarras Iniciais e Final")
-        st.write("Clique em duas agarras iniciais e uma agarra final (a mais alta). Limite de 3 cliques.")
+        st.write("Clique nas duas agarras iniciais e uma agarra final (nessa ordem). Limite de 3 cliques.")
 
         general_click_coords = streamlit_image_coordinates(
             current_cropped_image_pil,
             key="cropped_image_for_general_clicks",
-            width=MAX_IMAGE_WIDTH
         )
         if general_click_coords:
             clicked_x = general_click_coords['x']
@@ -154,7 +153,7 @@ if uploaded_file is not None:
             if fastest_route:
                 st.success("Rota mais rápida encontrada!")
                 route_image = visualize_route(current_cropped_image_pil, fastest_route)
-                st.image(route_image, caption="Rota Mais Rápida", width=MAX_IMAGE_WIDTH)
+                st.image(route_image, caption="Rota Mais Rápida")
             else:
                 st.warning("Não foi possível encontrar uma rota válida com as agarras selecionadas.")
     else:

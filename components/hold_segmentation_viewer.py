@@ -35,7 +35,7 @@ def hold_segmentation_viewer_component(cropped_image_pil, binary_mask_np, max_di
             st.session_state.detected_holds_components,
             cropped_image_pil.size[::-1] # .size retorna (width, height), precisamos (height, width)
         )
-        st.image(colored_components_image, caption="Agarras Identificadas", width=max_display_width)
+        st.image(colored_components_image, caption="Agarras Identificadas")
 
         # Opcional: Exibir número de agarras e talvez um botão para "Reiniciar Identificação"
         if st.button("Reiniciar Identificação de Agarras", key="reset_holds_button"):
